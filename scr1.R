@@ -129,3 +129,8 @@ x=data.org$Y[data.org$i==2]
 library(ggplot2)
 plot(x)
 ggplot(data.org, aes(xj,Y))+geom_point(shape =1)+facet_wrap(~1)
+
+library(dplyr)
+ddply(data.org,~i,summarise,)
+
+plots <- lapply(split(mtcars, interaction(mtcars[,c("gear","carb")]), drop = TRUE), gg_test)
