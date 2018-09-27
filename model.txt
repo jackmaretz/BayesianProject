@@ -1,0 +1,16 @@
+
+{
+for( j in 1 : T ) {
+Y[i , j] ~ dnorm(mu[i , j],tau.c)
+}
+beta[i] ~ dnorm(beta.mu,beta.tau)
+#sigma <- 1 / sqrt(tau.c);
+alpha.mu ~ dnorm(0.0,1.0E-6);
+tau.c ~ dgamma(0.001,0.001);
+beta.tau ~ dgamma(0.001,0.001);
+#alpha0 <- alpha.c - xbar * beta.c }
+#priors
+#tranformations
+beta.sigma = 1.0 / sqrt(beta.tau)
+x.bar = mean(x[]);
+
