@@ -97,7 +97,6 @@ mod1.samples <- coda.samples(model=mod1,
                                               'sigma.c'),
                              n.iter=10000)
 
-library("ggmcmc")
 
 result <- ggs(mod1.samples)
 ggs_density(result)
