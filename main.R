@@ -108,6 +108,7 @@ model
   alpha0 = alpha.mu - beta.mu*x.bar
   }"
   
+  
 writeLines(model1,"model.text")
 
 

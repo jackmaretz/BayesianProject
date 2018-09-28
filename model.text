@@ -30,4 +30,3 @@ model
   x.bar = mean(x[]);
   alpha0 = alpha.mu - beta.mu*x.bar
   }
-  
