@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1538489767631.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2085164150",
+    "id" : "4D3C9E73",
+    "lastKnownWriteTime" : 1538509034,
+    "last_content_update" : 1538509034335,
+    "path" : "~/GitHub/BayesianProject/RJAGS/data.R",
+    "project_path" : "data.R",
+    "properties" : {
+        "cursorPosition" : "34,79",
+        "scrollLine" : "20",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
