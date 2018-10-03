@@ -33,23 +33,13 @@ rats <- list(x = c(8.0, 15.0, 22.0, 29.0, 36.0), xbar = 22, N = 30, T = 5,
        .Dim = c(30,5))) 
 
 parameters= c("alpha","beta","alpha.c","beta.c","tau.c","alpha.tau","beta.tau","alpha0")
-paramLorenz = c('alpha.mu',
-  'alpha.sigma',
-  'beta.mu',
-  'beta.sigma',
-  'sigma.c')
+
 init1 = list(alpha = c(250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 
                250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250),
      beta = c(6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
               6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6),         
      alpha.c = 150, beta.c = 10, 
      tau.c = 1, alpha.tau = 1, beta.tau = 1) 
-init1Lorenz = list(alpha = c(250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 
-                       250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250),
-             beta = c(6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
-                      6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6),         
-             alpha.mu = 150, beta.mu = 10, 
-             tau.c = 1, alpha.tau = 1, beta.tau = 1)
 
 init2 = list(alpha = c(250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 
                        250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250),
@@ -64,14 +54,12 @@ init3 = list(alpha = c(250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 25
              alpha.c = 150, beta.c = 10, 
              tau.c = 1, alpha.tau = 1, beta.tau = 1)
 initial.values=list(init1,init2,init3)
-initial.values.lor=list(init1Lorenz)
 
 library(R2WinBUGS) 
 
 
-first.model.lorenz=bugs(data=rats, inits=initial.values.lor, parameters.to.save=paramLorenz, model.file="lorenzmodel.txt", n.chains=1, bugs.directory = "C:/Users/giaco/Documents/winbugs/WinBUGS14", working.directory="C:/Users/giaco/Documents/GitHub/BayesianProject/RJAGS", n.burnin = 1000, n.iter=11000,debug = TRUE)
 
-first.model=bugs(data=rats, inits=initial.values, parameters.to.save=parameters, model.file="model3.txt", n.chains=3, bugs.directory = "C:/Users/giaco/Documents/winbugs/WinBUGS14", working.directory="C:/Users/giaco/Documents/GitHub/BayesianProject/RJAGS", n.burnin = 1000, n.iter=11000, debug=TRUE)
+first.model=bugs(data=rats, inits=initial.values, parameters.to.save=parameters, model.file="model.txt", n.chains=3, bugs.directory = "C:/Users/giaco/Documents/winbugs/WinBUGS14", working.directory="C:/Users/giaco/Documents/GitHub/BayesianProject/RJAGS", n.burnin = 1000, n.iter=11000)
 
 initial.values2=list(init1,init2)
 
