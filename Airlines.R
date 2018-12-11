@@ -29,3 +29,18 @@ a.ini <- list( list( lambda=20 ), list( lambda=23 ), list( lambda=26 ) )
 m <- jags.model( file = "m1.jag", data = a.dat,  n.chains = 3, inits = a.ini, n.adapt = 2000 )
 
 res <- coda.samples( m, var = "lambda",  n.iter = 10000, thin = 10 )
+
+class( res )  # [1] "mcmc.list"
+summary( res )
+
+par( mfrow=c(1,2) )
+plot( res )
+
+
+a1.par <- c("lambda","fatal[27]")    # For prediction
+res1 <- coda.samples(m, var = a1.par, n.iter = 10000, thin=10)
+#Each element of the list is a 1000 by 2 matrix.
+
+summary(res1)   
+plot(res1)
+
