@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1544548187160.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "42087C07",
+    "lastKnownWriteTime" : 1544547598,
+    "last_content_update" : 1544547598,
+    "path" : "~/GitHub/BayesianProject/airlines/Airlines.R",
+    "project_path" : "Airlines.R",
+    "properties" : {
+        "cursorPosition" : "3,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
