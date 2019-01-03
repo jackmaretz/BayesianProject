@@ -1,0 +1,10 @@
+model
+ {
+ for( i in 1:I )
+ {
+ mu[i] <- exp( alpha + beta*(i-10) ) * miles[i]
+ fatal[i] ~ dpois( mu[i] )
+ }
+ alpha ~ dnorm(0,0.000001)
+ beta ~ dnorm(0,0.000001)
+ }

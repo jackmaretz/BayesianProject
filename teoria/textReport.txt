@@ -1,0 +1,76 @@
+In this project we are analyzing data collected from 1976 to 2001 about airline fatal accidents by the International Civil Aviation Organization in Montreal , Canada (www.icao.int).
+Our goal is to get a good prediction about future fatalitis through a bayesian approach.
+Our data is structured with four columns, year, fatal, miles, rate.
+"Passenger miles" are in units of 10^11 and the "accident rate" is the number of fatal accidents per 10^11 passenger miles.
+
+---Table and descriptive plots---
+
+I started with the simplest model i could immagine, that simply all the years look the same.
+This means that the number of fatal accidents in each year are independend with a Poisson(/theta) distribution.
+I set a non informative gamma prior distribution for /theta, that has (/alpha, /beta) = (0.01,0.01)
+
+The model for the data is:
+
+			$$y_i|/theta -> Poisson(/theta)$$ 
+
+where /theta is the expected number of fatal accidents in an year.
+If the prior distribution for /theta is (/gamma(/alpha,/beta)) then the posterior distrubution is  /gamma(/alpha+n/bar(y),/beta+n), where in this case n=26 and n/bar(y)= /sum^26_(i=1)y_i=634
+
+## theoretical derivation of the predictive distribution
+
+Let /tilde(y) be the number of fatal accidents in 2002. Given /theta, the predictive distribution for /tilde(y) is Poisson(/theta). 
+
+$$p(y)=/frac{p(y|/theta)p(/theta)}{p(/theta|y)} 
+	= /frac{Poisson(y|/theta) gamma(/theta|/alpha,/beta)}{gamma(/thata|/alpha+y,/beta+1)}
+	= /frac{/gamma(/alpha+y)/beta^/alpha}{/gamma(/alpha)y!(1+/beta)^(/alpha+y)}
+	= y /tilde Neg-bin(/alpha,/beta)$$
+
+## post distro 
+
+The posterior distribution for /theta is /theta|y /tilde Gamma(634,26) and the conditional distribution of /tilde(y) (the number of fatal accidents in  2002) is Poisson(/theta).
+
+So to simulate values of /tilde(y) all we need to do is first generate a realized value form the posterior distribution of /theta as the mean. Iterating this process will generate values of  /tilde(y) from the posterior predictive distribution. What we are doing here is integrating numerically, using simulation, over the posterior distrobution in /theta.
+We can simulate this easily in R.
+#
+#
+#
+
+We can specify the model in R using the package rJags.
+##
+#
+#
+#
+#
+
+
+The summary of the resulting object shows that the posterior mean and median of the /mu is about 24.37. This is also the posterior expectation of the predictive distribution for the numer of fatal accidents in 2002, represented by the node fatal[27].
+
+The posterior predisctive distribution for the number of fatal accients in 2002 has median 24 and 95% posterior interval [15,35].
+
+Recall that the posterior predictive distribution is a discrete distribution. We can compare this with the one simulated directly before.
+
+# MODEL 2
+
+Let m_i = number of passenger miles flown in year i and /lambda = accident rate per passenger mile.
+The model for the data is $y_i|m_i, /lambda /tilde Poisson(m_i /lambda)$.
+We use the noninformative /gamma(0,0) prior distribution for /lambda as we did for /mu previously.
+The posterior distribution for /lambda is /lambda|y, m/tilde /gamma(nybar,nmbar) =  /gamma (643,275.56) where nmbar = /sum^26_{i=1}m_i:
+
+
+##### DA ELIMINARE
+Given /lambda, the predictive distribution for y2~002 is Poisson(/lambda m_2002) =
+Poisson(2 x 10^12/lambda). The posterior predictive distribution for /tilde(y) will be (related to
+the) negative binomial but the algebra is more complex due to the presence of
+the 2  1012 scale factor based on the number of miles 
+own. SO we let BUGS do
+the hard work | you can see that the change to the BUGS code is rather minimal.
+Note that we as before add an extra NA value to the vector of fatalities, and in
+order to get a predictive distribution for this an anticipated value for the
+number of miles 
+own, in this case 20 (1011).
+Also note that you cannot stick an expression in as an argument to a
+distribution; an expression as fatal[i] dpois(lambda*miles[i]) will cause an
+error.
+#####
+
+ 

@@ -1,0 +1,211 @@
+---
+title: "Airlines - SDS2 Project"
+author: "Giacomo Maretto"
+date: "03 gennaio 2019"
+output: html_document
+---
+```{r, echo=FALSE,include=FALSE}
+#install.packages("rjags","coda","Epi","lme4","pixmap","sp")
+library(ggplot2)
+library(ggfortify)
+library(ggpubr)
+library("ggmcmc")
+library(rjags)
+library(ggplot2)
+library(knitr)
+library(pander)
+library(lattice)
+airline <- read.table("http://www.uta.fi/sis/mtt/mttts12/jags/airline.txt",h=T,sep="")
+```
+# Airlines Fatalities
+
+## Introduction 
+
+
+In this project we are analyzing data collected from 1976 to 2001 about airline fatal accidents by the International Civil Aviation Organization in Montreal , Canada (www.icao.int).
+
+Our goal is to get a good prediction about future fatalitis through a bayesian approach.
+
+Our data is structured with four columns, year, fatal, miles, rate.
+
+"Passenger miles" are in units of $10^{11}$ and the "accident rate" is the number of fatal accidents per $10^{11}$ passenger miles.
+
+
+```{r, echo=FALSE}
+airline$year1975= NULL
+pander(airline) # the column fatal which contains the annual number of fatalities.
+
+```
+__________________________________________________
+### Following three descriptive time series plot respectively about the number of fatal accidents, the miles flown and the accident rate per each year.
+
+
+```{r, echo=FALSE}
+
+theme_set(theme_classic())
+theme_set(theme_bw())# Plot 
+#autoplot(airline$year) + labs(title="AirFatal") + theme(plot.title = element_text(hjust=0.5))
+
+# Allow Default X Axis Labels
+p = ggplot(airline, aes(x=year)) + 
+  geom_line(aes(y=fatal,x =year)) + 
+  geom_point(aes(y=fatal,x=year))+
+  labs(title="Time Series Chart", 
+       subtitle="Returns fatal from 'Airlines' Dataset", 
+       caption="Source: American Airlines", 
+       y="Fatal")
+
+p  + theme(axis.text.x = element_text(angle = 60, vjust = 0.5)) + scale_x_continuous("Year", labels = as.character(airline$year), breaks = airline$year)
+
+
+```
+
+```{r, echo=FALSE}
+p = ggplot(airline, aes(x=year)) + 
+  geom_line(aes(y=miles,x =year)) + 
+  geom_point(aes(y=miles,x=year))+
+  labs(title="Time Series Chart", 
+       subtitle=" Miles per Year", 
+       caption="Source: American Airlines", 
+       y="Miles")
+
+p  + theme(axis.text.x = element_text(angle = 60, vjust = 0.5)) + scale_x_continuous("Year", labels = as.character(airline$year), breaks = airline$year)
+```
+
+```{r, echo=FALSE}
+p = ggplot(airline, aes(x=year)) + 
+  geom_line(aes(y=rate,x =year)) + 
+  geom_point(aes(y=rate,x=year))+
+  labs(title="Time Series Chart", 
+       subtitle="Rate per Year", 
+       caption="Source: American Airlines", 
+       y="Rate")
+
+p  + theme(axis.text.x = element_text(angle = 60, vjust = 0.5)) + scale_x_continuous("Year", labels = as.character(airline$year), breaks = airline$year)
+```
+I started with the simplest model i could immagine, that simply all the years look the same.
+This means that the number of fatal accidents in each year are independend with a Poisson(/theta) distribution.
+I set a non informative gamma prior distribution for $\theta$, that has $(\alpha, \beta) = (0.01,0.01)$
+
+
+The model for the data is:
+
+
+where /theta is the expected number of fatal accidents in an year.
+If the prior distribution for $\theta$ is $(\Gamma(\alpha,\beta))$ then the posterior distrubution is  $\Gamma(\alpha+n\bar y,\beta+n)$, where in this case $n=26$ and $n\bar y=  \sum^{26}_{i=1}y_i=634$
+			$$y_i|\theta  \sim Poisson(\theta)$$
+
+## Posterior distribution 
+
+The posterior distribution for $\theta$ is $\theta|y \sim \Gamma(634,26)$ and the conditional distribution of $\tilde{y}$ (the number of fatal accidents in  2002) is $Poisson(\theta)$.
+
+So to simulate values of $\tilde{y}$ all we need to do is first generate a realized value form the posterior distribution of $\theta$ as the mean. Iterating this process will generate values of  $\tilde{y}$ from the posterior predictive distribution. What we are doing here is integrating numerically, using simulation, over the posterior distrobution in $\theta$.
+We can simulate this easily in R.
+```{r}
+theta <- rgamma(1000, 634, 26 )
+y.2002 <- rpois(1000,theta)
+#hist( y.2002 )
+plot( table(y.2002), type="h", lwd=5, lend=2, col=gray(0.5), bty="n", ylab="" )
+```
+We can specify the model in R using the package rJags.
+```{r}
+a1.par <- c("mu","fatal[27]")
+
+a1.ini <- list(list( mu=22 ),
+              list( mu=23 ),
+              list( mu=24 ) )
+
+a1.dat <- list( fatal = c(airline$fatal,NA), I=27 )
+
+# Model compilation and burn-in
+a1.mod <- jags.model( file = "a1.jag",
+                    data = a1.dat,
+                    inits = a1.ini,
+                    n.chains = 3,
+                    n.adapt = 1000 )
+  
+# Sampling from the posterior
+a1.res <- coda.samples( a1.mod,
+                      var = a1.par,
+                      n.iter = 10000,
+                      thin = 10 )
+summary( a1.res )
+print( xyplot( a1.res[,1:2] ) )
+
+theta <- rgamma(6000, 634, 26 )
+y.2002 <- rpois(6000,theta)
+plot( table(y.2002), type="h", lwd=5, lend=2, col=gray(0.2), bty="n", ylab="", xlim=c(5,50) )
+tpr <- table( as.matrix( a1.res[,"fatal[27]"] ) )
+points( as.numeric(names(tpr))+0.4, tpr, type="h", col="red", lwd=4 )
+
+
+
+###################
+
+```
+```{r}
+
+result = ggs(a1.res)
+ggs_density(result)
+ggs_traceplot(result)
+ggs_running(result)
+ggs_autocorrelation(result)
+ggs_pairs(result) ########mmmmmeh
+
+```
+## MODEL2
+
+```{r}
+a2.ini <- list( list( lambda=10 ),list( lambda=20 ),list( lambda=30 ) )
+a2.dat <- list( fatal=c(airline$fatal,NA),miles=c(airline$miles,20), I=27 )
+a2.par <- c("mu","fatal[27]")
+
+# Model compilation and burn-in
+a2.mod <- jags.model( file = "a2.jag",data = a2.dat,inits = a2.ini,n.chains = 3,n.adapt = 1000 )
+
+# Sampling from the posterior
+a2.res <- coda.samples( a2.mod,var = a2.par,n.iter = 10000,thin = 10 )
+summary( a2.res )
+  
+print( xyplot( a2.res[,1:2] ) )
+
+ ################################ 
+#A closer inspection of the number of fatal airline crashes can be dome by:
+par(mfrow=c(1,2))
+with(airline, plot( year, fatal, pch=16, type="b", ylim=c(0,32), bty="n" ) )
+with(airline, plot( year, rate, pch=16, type="b", ylim=c(0,7), bty="n" ) )
+
+
+
+result2 = ggs(a2.res)
+ggs_density(result)
+ggs_traceplot(result)
+ggs_running(result)
+ggs_autocorrelation(result2)
+
+```
+## MODEL 3
+
+```{r}
+a3.ini <- list( list( alpha=10, beta=-0.5 ),list( alpha=20, beta=-0.6 ),list( alpha=30, beta=-0.4 ) )
+
+a3.dat <- list( fatal=c(airline$fatal,NA),miles=c(airline$miles,20), I=27 )
+
+a3.par <- c("alpha","beta","fatal[27]")
+
+# Model compilation and burn-in
+a3.mod <- jags.model( file = "a3.jag",data = a3.dat,inits = a3.ini,n.chains = 3,n.adapt = 1000 )
+# Sampling from the posterior
+a3.res <- coda.samples( a3.mod,var = a3.par,n.iter = 10000,thin = 10 )
+summary( a3.res )
+
+print( xyplot( a3.res[,1:2] ) )
+
+
+result3 = ggs(a3.res)
+ggs_density(result)
+ggs_traceplot(result)
+ggs_running(result)
+ggs_autocorrelation(result3)
+```
+

@@ -1,0 +1,7 @@
+model {
+  for( i in 1:I ){
+    mu[i] <- lambda * miles[i]
+    fatal[i] ~ dpois( mu[i] )
+    }
+  lambda ~ dgamma(0.01,0.01)
+  }

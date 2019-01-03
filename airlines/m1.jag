@@ -1,0 +1,7 @@
+model{
+for( i in 1:I )
+ {
+  fatal[i] ~ dpois(lambda)
+ }
+lambda ~ dgamma(0.1,0.1)
+}
