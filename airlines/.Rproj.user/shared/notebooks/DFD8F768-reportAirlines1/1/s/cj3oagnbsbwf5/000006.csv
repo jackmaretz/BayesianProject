@@ -1,0 +1,2 @@
+"0","tpr <- table( as.matrix( a2.res[,""fatal[27]""] ) )"
+"0","points( as.numeric(names(tpr))+0.4, tpr, type=""h"", col=""red"", lwd=4 )"

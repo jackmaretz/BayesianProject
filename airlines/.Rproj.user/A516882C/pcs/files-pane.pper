@@ -1,0 +1,9 @@
+{
+    "path" : "~/GitHub/BayesianProject/airlines",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}

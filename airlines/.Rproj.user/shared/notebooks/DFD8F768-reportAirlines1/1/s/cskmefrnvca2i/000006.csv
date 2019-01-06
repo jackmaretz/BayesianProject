@@ -1,0 +1,4 @@
+"0","result3 = ggs(a3.res)"
+"0","ggs_density(result)"
+"2","Error in ggs_density(result) : object 'result' not found
+"

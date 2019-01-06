@@ -1,4 +1,3 @@
-
 airline <- read.table("http://www.uta.fi/sis/mtt/mttts12/jags/airline.txt",h=T,sep="")
 library(rjags)
 library(lattice)
