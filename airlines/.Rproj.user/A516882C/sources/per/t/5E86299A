@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1547034719205.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3077981902",
+    "id" : "5E86299A",
+    "lastKnownWriteTime" : 1547136857,
+    "last_content_update" : 1547136857533,
+    "path" : "~/GitHub/BayesianProject/airlines/reportPreview.Rmd",
+    "project_path" : "reportPreview.Rmd",
+    "properties" : {
+        "cursorPosition" : "254,36",
+        "scrollLine" : "248",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

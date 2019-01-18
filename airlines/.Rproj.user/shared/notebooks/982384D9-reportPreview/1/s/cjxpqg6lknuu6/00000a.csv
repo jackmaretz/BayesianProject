@@ -1,0 +1,1 @@
+"0","with(airline, plot( year, rate, pch=16, type=""b"", ylim=c(0,7), bty=""n"" ) )"

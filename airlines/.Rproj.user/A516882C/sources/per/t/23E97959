@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1546962256540.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1892236924",
+    "id" : "23E97959",
+    "lastKnownWriteTime" : 1547034703,
+    "last_content_update" : 1547034703337,
+    "path" : "~/GitHub/BayesianProject/airlines/modelloMio.R",
+    "project_path" : "modelloMio.R",
+    "properties" : {
+        "cursorPosition" : "68,20",
+        "scrollLine" : "14",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

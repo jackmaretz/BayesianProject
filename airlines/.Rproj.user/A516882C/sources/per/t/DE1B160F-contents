@@ -167,6 +167,14 @@ ggs_autocorrelation(result)
 ## MODEL2
 
 ```{r}
+cat("model {
+  for( i in 1:I ){
+    mu[i] <- lambda * miles[i]
+    fatal[i] ~ dpois( mu[i] )
+    }
+  lambda ~ dgamma(0.01,0.01)
+  }", file="a2.jag" )
+
 a2.ini <- list( list( lambda=10 ),list( lambda=20 ),list( lambda=30 ) )
 a2.dat <- list( fatal=c(airline$fatal,NA),miles=c(airline$miles,20), I=27 )
 a2.par <- c("mu","fatal[27]")
@@ -189,9 +197,9 @@ points( as.numeric(names(tpr))+0.4, tpr, type="h", col="red", lwd=4 )
 
 
 result2 = ggs(a2.res)
-ggs_density(result)
-ggs_traceplot(result)
-ggs_running(result)
+ggs_density(result2)
+ggs_traceplot(result2)
+ggs_running(result2)
 ggs_autocorrelation(result2)
 
 ```
@@ -219,9 +227,9 @@ points( as.numeric(names(tpr))+0.4, tpr, type="h", col="red", lwd=4 )
 
 
 result3 = ggs(a3.res)
-ggs_density(result)
-ggs_traceplot(result)
-ggs_running(result)
+ggs_density(result3)
+ggs_traceplot(result3)
+ggs_running(result3)
 ggs_autocorrelation(result3)
 ```
 

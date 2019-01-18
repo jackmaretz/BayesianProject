@@ -1,0 +1,4 @@
+"0"," ################################ "
+"0","#A closer inspection of the number of fatal airline crashes can be dome by:"
+"0","par(mfrow=c(1,2))"
+"0","with(airline, plot( year, fatal, pch=16, type=""b"", ylim=c(0,32), bty=""n"" ) )"

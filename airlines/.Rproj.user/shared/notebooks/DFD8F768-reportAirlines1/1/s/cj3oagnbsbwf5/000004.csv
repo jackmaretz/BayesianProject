@@ -1,3 +1,0 @@
-"0","theta <- rgamma(6000, 634, 26 )"
-"0","y.2002 <- rpois(6000,theta)"
-"0","plot( table(y.2002), type=""h"", lwd=5, lend=2, col=gray(0.2), bty=""n"", ylab="""", xlim=c(5,50) )"

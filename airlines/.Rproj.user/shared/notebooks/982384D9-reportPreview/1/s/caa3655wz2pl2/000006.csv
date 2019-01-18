@@ -1,0 +1,4 @@
+"0","theta <- rgamma(1000, 634, 26 )"
+"0","y.2002 <- rpois(1000,theta)"
+"0","#hist( y.2002 )"
+"0","plot( table(y.2002), type=""h"", lwd=5, lend=2, col=gray(0.5), bty=""n"", ylab="""" )"
