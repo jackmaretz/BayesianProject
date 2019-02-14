@@ -184,7 +184,8 @@ $$log(E(y(t)|t,m(t))) = \alpha + \beta t + log(m(t))$$
 with :
 
 $$y_i \sim Pois(\mu)$$
-$ \mu = exp(\alpha + \beta * year ) * miles)$
+and 
+$$\mu = exp(\alpha + \beta * year ) * miles$$
 
 with uninformative ppriors: 
 
