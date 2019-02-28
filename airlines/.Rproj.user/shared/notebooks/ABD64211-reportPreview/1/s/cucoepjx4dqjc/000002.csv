@@ -1,0 +1,25 @@
+"0","cat( ""model
+ {
+ for( i in 1:I )
+ {
+ fatal[i] ~ dpois( mu[i] )
+ log(mu[i]) <- alpha + beta * miles[i]
+ }
+ alpha ~ dnorm(0,0.000001)
+ beta ~ dnorm(0,0.000001)
+ }"",
+ file=""a3.jag"" )
+ 
+ a3.dat <- list( fatal=c(airline$fatal,NA),
+ miles=c(airline$miles,20), I=27 )
+ a3.par <- c(""alpha"",""beta"",""fatal[27]"")
+ # Model compilation and burn-in
+ a3.mod <- jags.model(file = ""a2.jag"",
+ data = a2.dat,
+ inits.fn = NULL,
+ n.chains = 3,
+ n.adapt = 1000 )
+"
+"2","Error in jags.model(file = ""a2.jag"", data = a2.dat, inits.fn = NULL, n.chains = 3,  : 
+  unused argument (inits.fn = NULL)
+"

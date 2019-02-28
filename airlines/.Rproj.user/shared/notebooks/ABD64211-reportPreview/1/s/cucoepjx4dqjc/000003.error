@@ -1,0 +1,1 @@
+{"frames":[],"message":"Error in jags.model(file = \"a2.jag\", data = a2.dat, inits.fn = NULL, n.chains = 3,  : \n  unused argument (inits.fn = NULL)\n"}

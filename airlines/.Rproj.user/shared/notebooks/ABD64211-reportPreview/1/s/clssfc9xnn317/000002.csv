@@ -1,0 +1,5 @@
+"0"," # Sampling from the posterior
+ a3.res <- coda.samples( a3.mod,var = a3.par,n.iter = 10000,thin = 10 )summary( a3.res )
+"
+"2","Error: unexpected symbol in "" a3.res <- coda.samples( a3.mod,var = a3.par,n.iter = 10000,thin = 10 )summary""
+"

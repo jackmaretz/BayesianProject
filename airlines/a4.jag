@@ -2,9 +2,9 @@ model
  {
  for( i in 1:I )
  {
- mu[i] <- exp( alpha + beta*(i-10) ) * miles[i]
- fatal[i] ~ dpois( mu[i] )
+ fatal[i] ~ dnorm( mu[i],1/mu[i] )
+ mu[i] <- alpha + beta2 * miles[i]
  }
- alpha ~ dnorm(0,0.000001)
- beta ~ dnorm(0,0.000001)
+ alpha ~ dnorm(0,0.0001)
+ beta2 ~ dnorm(0,0.0001)
  }

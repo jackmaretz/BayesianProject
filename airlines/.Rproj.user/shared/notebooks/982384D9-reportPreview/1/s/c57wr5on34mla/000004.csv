@@ -1,8 +1,0 @@
-"0","p = ggplot(airline, aes(x=year)) + "
-"0","  geom_line(aes(y=miles,x =year)) + "
-"0","  geom_point(aes(y=miles,x=year))+"
-"0","  labs(title=""Time Series Chart"", "
-"0","       subtitle="" Miles per Year"", "
-"0","       caption=""Source: American Airlines"", "
-"0","       y=""Miles"")"
-"0","p  + theme(axis.text.x = element_text(angle = 60, vjust = 0.5)) + scale_x_continuous(""Year"", labels = as.character(airline$year), breaks = airline$year)"

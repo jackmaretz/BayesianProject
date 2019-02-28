@@ -1,0 +1,8 @@
+model {
+  for( i in 1:I ) {
+     fatal[i] ~ dpois(mu[i])
+     }
+     mu[i] ~ alpha+beta*(miles[i]-mean(miles[]))
+     alpha ~ dnorm(0,0.01)
+     beta ~ dnorm(0,0.01)
+     }

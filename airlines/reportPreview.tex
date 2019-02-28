@@ -1,0 +1,1266 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Sds2 Project},
+            pdfauthor={Giacomo Maretto},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Sds2 Project}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Giacomo Maretto}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{09 gennaio 2019}
+
+
+\begin{document}
+\maketitle
+
+\section{Airlines Fatalities}\label{airlines-fatalities}
+
+\subsection{Introduction}\label{introduction}
+
+In this project we are analyzing data collected from 1976 to 2001 about
+airline fatal accidents by the International Civil Aviation Organization
+in Montreal , Canada (www.icao.int).
+
+Our goal is to get a good prediction about future fatalitis through a
+bayesian approach.
+
+Our data is structured with four columns, year, fatal, miles, rate.
+
+``Passenger miles'' are in units of \(10^{11}\) and the ``accident
+rate'' is the number of fatal accidents per \(10^{11}\) passenger miles.
+
+\begin{longtable}[]{@{}cccc@{}}
+\toprule
+\begin{minipage}[b]{0.09\columnwidth}\centering\strut
+year\strut
+\end{minipage} & \begin{minipage}[b]{0.10\columnwidth}\centering\strut
+fatal\strut
+\end{minipage} & \begin{minipage}[b]{0.10\columnwidth}\centering\strut
+miles\strut
+\end{minipage} & \begin{minipage}[b]{0.10\columnwidth}\centering\strut
+rate\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1976\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+24\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+3.863\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+6.213\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1977\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+25\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+4.3\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+5.814\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1978\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+31\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+5.027\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+6.167\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1979\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+31\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+5.481\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+5.656\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1980\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+22\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+5.814\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+3.784\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1981\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+21\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+6.033\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+3.481\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1982\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+26\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+5.877\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+4.424\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1983\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+20\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+6.223\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+3.214\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1984\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+16\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+7.433\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+2.152\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1985\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+22\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+7.107\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+3.096\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1986\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+22\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+9.1\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+2.418\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1987\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+25\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+10\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+2.5\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1988\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+29\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+10.6\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+2.736\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1989\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+29\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+10.99\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+2.639\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1990\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+27\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+10.88\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+2.482\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1991\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+29\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+10.63\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+2.727\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1992\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+28\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+11.96\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+2.342\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1993\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+33\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+12.34\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+2.674\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1994\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+27\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+13.01\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+2.075\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1995\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+25\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+14.22\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+1.758\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1996\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+24\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+16.37\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+1.466\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1997\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+26\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+15.48\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+1.679\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1998\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+20\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+18.08\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+1.106\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+1999\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+21\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+16.63\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+1.263\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+2000\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+18\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+18.88\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+0.954\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\centering\strut
+2001\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+13\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+19.23\strut
+\end{minipage} & \begin{minipage}[t]{0.10\columnwidth}\centering\strut
+0.676\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+\subsubsection{Following three descriptive time series plot respectively
+about the number of fatal accidents, the miles flown and the accident
+rate per each
+year.}\label{following-three-descriptive-time-series-plot-respectively-about-the-number-of-fatal-accidents-the-miles-flown-and-the-accident-rate-per-each-year.}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-3-1.pdf}
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-3-2.pdf}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+started with the simplest model i could immagine, that simply all the
+years look the same. This means that the number of fatal accidents in
+each year are independend with a \(Poisson(\theta)\) distribution. I set
+a non informative gamma prior distribution for \(\theta\), that has
+\((\alpha, \beta) = (0.01,0.01)\)
+
+The model for the data is:
+
+where \(\theta\) is the expected number of fatal accidents in an year.
+If the prior distribution for \(\theta\) is \((\Gamma(\alpha,\beta))\)
+then the posterior distrubution is \(\Gamma(\alpha+n\bar y,\beta+n)\),
+where in this case \(n=26\) and \(n\bar y= \sum^{26}_{i=1}y_i=634\)
+\[y_i|\theta  \sim Poisson(\theta)\] with:
+
+\begin{verbatim}
+        $\theta \sim Gamma(0.01,0.01)$
+\end{verbatim}
+
+\subsection{Posterior distribution}\label{posterior-distribution}
+
+The posterior distribution for \(\theta\) is
+\(\theta|y \sim \Gamma(634,26)\) and the conditional distribution of
+\(\tilde{y}\) (the number of fatal accidents in 2002) is
+\(Poisson(\theta)\).
+
+So to simulate values of \(\tilde{y}\) all we need to do is first
+generate a realized value form the posterior distribution of \(\theta\)
+as the mean. Iterating this process will generate values of
+\(\tilde{y}\) from the posterior predictive distribution. What we are
+doing here is integrating numerically, using simulation, over the
+posterior distrobution in \(\theta\). We can simulate this easily in R.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{theta <-}\StringTok{ }\KeywordTok{rgamma}\NormalTok{(}\DecValTok{1000}\NormalTok{, }\DecValTok{634}\NormalTok{, }\DecValTok{26}\NormalTok{ )}
+\NormalTok{y.}\DecValTok{2002}\NormalTok{ <-}\StringTok{ }\KeywordTok{rpois}\NormalTok{(}\DecValTok{1000}\NormalTok{,theta)}
+\CommentTok{#hist( y.2002 )}
+\KeywordTok{plot}\NormalTok{( }\KeywordTok{table}\NormalTok{(y.}\DecValTok{2002}\NormalTok{), }\DataTypeTok{type=}\StringTok{"h"}\NormalTok{, }\DataTypeTok{lwd=}\DecValTok{5}\NormalTok{, }\DataTypeTok{lend=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\KeywordTok{gray}\NormalTok{(}\FloatTok{0.5}\NormalTok{), }\DataTypeTok{bty=}\StringTok{"n"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{""}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{hist}\NormalTok{(airline}\OperatorTok{$}\NormalTok{fatal,}\DataTypeTok{col =} \StringTok{"lightblue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-6-2.pdf}
+
+We can specify the model in R using the package rJags.
+
+\subsection{First model}\label{first-model}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cat}\NormalTok{( }\StringTok{"model \{}
+\StringTok{  for( i in 1:I ) \{}
+\StringTok{    fatal[i] ~ dpois(mu)}
+\StringTok{    \}}
+\StringTok{    mu ~ dgamma(0.01,0.01)}
+\StringTok{  \}"}\NormalTok{, }\DataTypeTok{file=}\StringTok{"a1.jag"}\NormalTok{ )}
+
+\NormalTok{a1.par <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"mu"}\NormalTok{,}\StringTok{"fatal[27]"}\NormalTok{)}
+
+\NormalTok{a1.ini <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\KeywordTok{list}\NormalTok{( }\DataTypeTok{mu=}\DecValTok{22}\NormalTok{ ),}
+              \KeywordTok{list}\NormalTok{( }\DataTypeTok{mu=}\DecValTok{23}\NormalTok{ ),}
+              \KeywordTok{list}\NormalTok{( }\DataTypeTok{mu=}\DecValTok{24}\NormalTok{ ) )}
+
+\NormalTok{a1.dat <-}\StringTok{ }\KeywordTok{list}\NormalTok{( }\DataTypeTok{fatal =} \KeywordTok{c}\NormalTok{(airline}\OperatorTok{$}\NormalTok{fatal,}\OtherTok{NA}\NormalTok{), }\DataTypeTok{I=}\DecValTok{27}\NormalTok{ )}
+
+\CommentTok{# Model compilation and burn-in}
+\NormalTok{a1.mod <-}\StringTok{ }\KeywordTok{jags.model}\NormalTok{( }\DataTypeTok{file =} \StringTok{"a1.jag"}\NormalTok{,}
+                    \DataTypeTok{data =}\NormalTok{ a1.dat,}
+                    \DataTypeTok{inits =}\NormalTok{ a1.ini,}
+                    \DataTypeTok{n.chains =} \DecValTok{3}\NormalTok{,}
+                    \DataTypeTok{n.adapt =} \DecValTok{1000}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 26
+##    Unobserved stochastic nodes: 2
+##    Total graph size: 30
+## 
+## Initializing model
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Sampling from the posterior}
+\NormalTok{a1.res <-}\StringTok{ }\KeywordTok{coda.samples}\NormalTok{( a1.mod,}
+                      \DataTypeTok{var =}\NormalTok{ a1.par,}
+                      \DataTypeTok{n.iter =} \DecValTok{10000}\NormalTok{,}
+                      \DataTypeTok{thin =} \DecValTok{10}\NormalTok{ )}
+\KeywordTok{summary}\NormalTok{( a1.res )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Iterations = 10:10000
+## Thinning interval = 10 
+## Number of chains = 3 
+## Sample size per chain = 1000 
+## 
+## 1. Empirical mean and standard deviation for each variable,
+##    plus standard error of the mean:
+## 
+##            Mean     SD Naive SE Time-series SE
+## fatal[27] 24.38 4.9032  0.08952        0.08951
+## mu        24.38 0.9827  0.01794        0.01666
+## 
+## 2. Quantiles for each variable:
+## 
+##            2.5%   25%   50%   75% 97.5%
+## fatal[27] 16.00 21.00 24.00 28.00 35.00
+## mu        22.49 23.72 24.37 25.04 26.33
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{theta <-}\StringTok{ }\KeywordTok{rgamma}\NormalTok{(}\DecValTok{6000}\NormalTok{, }\DecValTok{634}\NormalTok{, }\DecValTok{26}\NormalTok{ )}
+\NormalTok{y.}\DecValTok{2002}\NormalTok{ <-}\StringTok{ }\KeywordTok{rpois}\NormalTok{(}\DecValTok{6000}\NormalTok{,theta)}
+\KeywordTok{plot}\NormalTok{( }\DataTypeTok{main =} \StringTok{'Posterior predictive distribution of y in 2002'}\NormalTok{,}\KeywordTok{table}\NormalTok{(y.}\DecValTok{2002}\NormalTok{), }\DataTypeTok{type=}\StringTok{"h"}\NormalTok{, }\DataTypeTok{lwd=}\DecValTok{5}\NormalTok{, }\DataTypeTok{lend=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\KeywordTok{gray}\NormalTok{(}\FloatTok{0.2}\NormalTok{), }\DataTypeTok{bty=}\StringTok{"n"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{""}\NormalTok{, }\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{60}\NormalTok{) )}
+\NormalTok{tpr <-}\StringTok{ }\KeywordTok{table}\NormalTok{( }\KeywordTok{as.matrix}\NormalTok{( a1.res[,}\StringTok{"fatal[27]"}\NormalTok{] ) )}
+\KeywordTok{points}\NormalTok{( }\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{names}\NormalTok{(tpr))}\OperatorTok{+}\FloatTok{0.4}\NormalTok{, tpr, }\DataTypeTok{type=}\StringTok{"h"}\NormalTok{, }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{, }\DataTypeTok{lwd=}\DecValTok{4}\NormalTok{ )}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\KeywordTok{c}\NormalTok{(}\StringTok{'Directly simulated'}\NormalTok{,}\StringTok{'posterior values from BUGS output'}\NormalTok{),}\DataTypeTok{col=}\KeywordTok{c}\NormalTok{(}\KeywordTok{gray}\NormalTok{(}\FloatTok{0.2}\NormalTok{),}\StringTok{'red'}\NormalTok{),}\DataTypeTok{lwd =} \DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-7-1.pdf}
+\#\# Diagnostics for model 1
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{result =}\StringTok{ }\KeywordTok{ggs}\NormalTok{(a1.res)}
+\KeywordTok{ggs_density}\NormalTok{(result)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggs_traceplot}\NormalTok{(result)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-8-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggs_running}\NormalTok{(result)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-8-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggs_autocorrelation}\NormalTok{(result)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-8-4.pdf}
+
+\subsection{Model 2}\label{model-2}
+
+A more natural model is the multiplicative one
+
+\[log(E(y(t)|t,m(t))) = \alpha + \beta t + log(m(t))\]
+
+with :
+
+\[y_i \sim Pois(\mu)\] and \[\mu = exp(\alpha + \beta * year ) * miles\]
+
+with uninformative ppriors:
+
+\(\alpha \sim Norm(0,0.000001)\) \(\beta \sim Norm(0,0.000001)\)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(glm2 <-}\StringTok{ }\KeywordTok{glm}\NormalTok{( fatal }\OperatorTok{~}\StringTok{ }\KeywordTok{I}\NormalTok{(year}\OperatorTok{-}\DecValTok{1985}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{offset}\NormalTok{(}\KeywordTok{log}\NormalTok{(miles)),}\DataTypeTok{family=}\NormalTok{poisson,}\DataTypeTok{data=}\NormalTok{airline)) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = fatal ~ I(year - 1985) + offset(log(miles)), family = poisson, 
+##     data = airline)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.0782  -0.7953   0.1626   0.7190   1.9369  
+## 
+## Coefficients:
+##                 Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)     1.176111   0.043200   27.23   <2e-16 ***
+## I(year - 1985) -0.068742   0.005394  -12.74   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 182.628  on 25  degrees of freedom
+## Residual deviance:  22.545  on 24  degrees of freedom
+## AIC: 157.02
+## 
+## Number of Fisher Scoring iterations: 4
+\end{verbatim}
+
+which shows that rates decrease about 7\% per year.
+
+We can now fit a model using JAGS
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cat}\NormalTok{( }\StringTok{"model}
+\StringTok{ \{}
+\StringTok{ for( i in 1:I )}
+\StringTok{ \{}
+\StringTok{ mu[i] <- exp( alpha + beta*(i-10) ) * miles[i]}
+\StringTok{ fatal[i] ~ dpois( mu[i] )}
+\StringTok{ \}}
+\StringTok{ alpha ~ dnorm(0,0.000001)}
+\StringTok{ beta ~ dnorm(0,0.000001)}
+\StringTok{ \}"}\NormalTok{,}
+ \DataTypeTok{file=}\StringTok{"a2.jag"}\NormalTok{ )}
+\NormalTok{ a2.ini <-}\StringTok{ }\KeywordTok{list}\NormalTok{( }\KeywordTok{list}\NormalTok{( }\DataTypeTok{alpha=}\FloatTok{1.0}\NormalTok{, }\DataTypeTok{beta=}\OperatorTok{-}\FloatTok{0.05}\NormalTok{ ),}
+ \KeywordTok{list}\NormalTok{( }\DataTypeTok{alpha=}\FloatTok{1.5}\NormalTok{, }\DataTypeTok{beta=}\OperatorTok{-}\FloatTok{0.06}\NormalTok{ ),}
+ \KeywordTok{list}\NormalTok{( }\DataTypeTok{alpha=}\FloatTok{0.5}\NormalTok{, }\DataTypeTok{beta=}\OperatorTok{-}\FloatTok{0.04}\NormalTok{ ) )}
+\NormalTok{ a2.dat <-}\StringTok{ }\KeywordTok{list}\NormalTok{( }\DataTypeTok{fatal=}\KeywordTok{c}\NormalTok{(airline}\OperatorTok{$}\NormalTok{fatal,}\OtherTok{NA}\NormalTok{),}
+ \DataTypeTok{miles=}\KeywordTok{c}\NormalTok{(airline}\OperatorTok{$}\NormalTok{miles,}\DecValTok{20}\NormalTok{), }\DataTypeTok{I=}\DecValTok{27}\NormalTok{ )}
+\NormalTok{ a2.par <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"alpha"}\NormalTok{,}\StringTok{"beta"}\NormalTok{,}\StringTok{"fatal[27]"}\NormalTok{)}
+ \CommentTok{# Model compilation and burn-in}
+\NormalTok{ a2.mod <-}\StringTok{ }\KeywordTok{jags.model}\NormalTok{( }\DataTypeTok{file =} \StringTok{"a2.jag"}\NormalTok{,}
+ \DataTypeTok{data =}\NormalTok{ a2.dat,}
+ \DataTypeTok{inits =}\NormalTok{ a2.ini,}
+ \DataTypeTok{n.chains =} \DecValTok{3}\NormalTok{,}
+ \DataTypeTok{n.adapt =} \DecValTok{1000}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 26
+##    Unobserved stochastic nodes: 3
+##    Total graph size: 221
+## 
+## Initializing model
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \CommentTok{# Sampling from the posterior}
+\NormalTok{ a2.res <-}\StringTok{ }\KeywordTok{coda.samples}\NormalTok{( a2.mod,}
+ \DataTypeTok{var =}\NormalTok{ a2.par,}
+ \DataTypeTok{n.iter =} \DecValTok{10000}\NormalTok{,}
+ \DataTypeTok{thin =} \DecValTok{10}\NormalTok{ )}
+ \KeywordTok{summary}\NormalTok{( a2.res )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Iterations = 1010:11000
+## Thinning interval = 10 
+## Number of chains = 3 
+## Sample size per chain = 1000 
+## 
+## 1. Empirical mean and standard deviation for each variable,
+##    plus standard error of the mean:
+## 
+##               Mean       SD  Naive SE Time-series SE
+## alpha      1.17430 0.042778 7.810e-04      7.764e-04
+## beta      -0.06879 0.005299 9.675e-05      9.837e-05
+## fatal[27] 20.16167 4.778404 8.724e-02      8.495e-02
+## 
+## 2. Quantiles for each variable:
+## 
+##               2.5%      25%      50%      75%    97.5%
+## alpha      1.09022  1.14550  1.17451  1.20380  1.25793
+## beta      -0.07924 -0.07227 -0.06883 -0.06516 -0.05863
+## fatal[27] 11.97500 17.00000 20.00000 23.00000 30.00000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{( Epi )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'Epi' was built under R version 3.5.2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ci.lin}\NormalTok{( glm2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                   Estimate      StdErr         z             P        2.5%
+## (Intercept)     1.17611148 0.043199710  27.22499 3.287670e-163  1.09144161
+## I(year - 1985) -0.06874189 0.005393721 -12.74480  3.332545e-37 -0.07931339
+##                      97.5%
+## (Intercept)     1.26078136
+## I(year - 1985) -0.05817039
+\end{verbatim}
+
+we can see that beta and year are virtually identical according to the
+CI seen here and the 95\% posterior interval from the bugs simulation
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{result2 =}\StringTok{ }\KeywordTok{ggs}\NormalTok{(a2.res)}
+\KeywordTok{ggs_density}\NormalTok{(result2)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggs_traceplot}\NormalTok{(result2)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-12-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggs_running}\NormalTok{(result2)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-12-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggs_autocorrelation}\NormalTok{(result2)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-12-4.pdf}
+
+\section{Model 3}\label{model-3}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(rjags)}
+ \KeywordTok{cat}\NormalTok{( }\StringTok{"model}
+\StringTok{ \{}
+\StringTok{ for( i in 1:I )}
+\StringTok{ \{}
+\StringTok{ fatal[i] ~ dpois( mu[i] )}
+\StringTok{ log(mu[i]) <- alpha + beta*miles[i]+ beta2 * miles[i]*rate[i]}
+\StringTok{ \}}
+\StringTok{ alpha ~ dnorm(0,0.0001)}
+\StringTok{ beta ~ dnorm(0.0001,0.00001)}
+\StringTok{ beta2 ~ dnorm(0.0001,0.00001)}
+\StringTok{ \}"}\NormalTok{,}
+ 
+ \DataTypeTok{file=}\StringTok{"a3.jag"}\NormalTok{ )}
+
+\NormalTok{ a3.ini=}\StringTok{ }\KeywordTok{list}\NormalTok{(}
+    \KeywordTok{list}\NormalTok{(}\DataTypeTok{alpha =} \FloatTok{0.01}\NormalTok{, }\DataTypeTok{beta =} \FloatTok{0.6}\NormalTok{, }\DataTypeTok{beta2=}\FloatTok{0.1}\NormalTok{),}
+    \KeywordTok{list}\NormalTok{(}\DataTypeTok{alpha =} \FloatTok{0.2}\NormalTok{, }\DataTypeTok{beta =} \FloatTok{0.2}\NormalTok{, }\DataTypeTok{beta2=}\FloatTok{0.2}\NormalTok{),}
+    \KeywordTok{list}\NormalTok{(}\DataTypeTok{alpha =} \FloatTok{0.7}\NormalTok{, }\DataTypeTok{beta =} \FloatTok{0.7}\NormalTok{, }\DataTypeTok{beta2=}\FloatTok{0.3}\NormalTok{))}
+\NormalTok{ a3.dat <-}\StringTok{ }\KeywordTok{list}\NormalTok{( }\DataTypeTok{rate=} \KeywordTok{c}\NormalTok{(airline}\OperatorTok{$}\NormalTok{rate,}\FloatTok{0.7080}\NormalTok{,}\FloatTok{0.3}\NormalTok{,}\FloatTok{0.4}\NormalTok{),}\DataTypeTok{fatal=}\KeywordTok{c}\NormalTok{(airline}\OperatorTok{$}\NormalTok{fatal,}\OtherTok{NA}\NormalTok{,}\OtherTok{NA}\NormalTok{,}\OtherTok{NA}\NormalTok{), }\DataTypeTok{miles=}\KeywordTok{c}\NormalTok{(airline}\OperatorTok{$}\NormalTok{miles,}\FloatTok{19.775}\NormalTok{,}\FloatTok{23.300}\NormalTok{,}\FloatTok{20.3}\NormalTok{), }\DataTypeTok{I=}\DecValTok{29}\NormalTok{ )}
+\NormalTok{ a3.par <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"alpha"}\NormalTok{,}\StringTok{"beta"}\NormalTok{,}\StringTok{"beta2"}\NormalTok{,}\StringTok{"fatal[27]"}\NormalTok{,}\StringTok{"fatal[28]"}\NormalTok{,}\StringTok{"fatal[29]"}\NormalTok{)}
+
+ \CommentTok{# Model compilation and burn-in}
+\NormalTok{ a3.mod <-}\StringTok{ }\KeywordTok{jags.model}\NormalTok{(}\DataTypeTok{file =} \StringTok{"a3.jag"}\NormalTok{,}\DataTypeTok{data =}\NormalTok{ a3.dat,}\DataTypeTok{inits =}\NormalTok{ a3.ini,}\DataTypeTok{n.chains =} \DecValTok{3}\NormalTok{,}\DataTypeTok{n.adapt =} \DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 26
+##    Unobserved stochastic nodes: 6
+##    Total graph size: 210
+## 
+## Initializing model
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \KeywordTok{update}\NormalTok{(a3.mod,}\DecValTok{1000}\NormalTok{)}
+ \CommentTok{# Sampling from the posterior}
+\NormalTok{ a33.res <-}\StringTok{ }\KeywordTok{coda.samples}\NormalTok{( a3.mod,}\DataTypeTok{var =}\NormalTok{ a3.par,}\DataTypeTok{n.iter =} \DecValTok{10000}\NormalTok{,}\DataTypeTok{thin =} \DecValTok{50}\NormalTok{ )}
+ \KeywordTok{summary}\NormalTok{( a33.res )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Iterations = 2050:12000
+## Thinning interval = 50 
+## Number of chains = 3 
+## Sample size per chain = 200 
+## 
+## 1. Empirical mean and standard deviation for each variable,
+##    plus standard error of the mean:
+## 
+##                Mean       SD  Naive SE Time-series SE
+## alpha      2.126063 0.266396 0.0108756      0.0173035
+## beta      -0.001327 0.008981 0.0003666      0.0004060
+## beta2      0.043363 0.008907 0.0003636      0.0005648
+## fatal[27] 15.331667 4.223513 0.1724242      0.1726107
+## fatal[28] 11.408333 3.862183 0.1576730      0.1529038
+## fatal[29] 11.911667 4.032903 0.1646426      0.1703745
+## 
+## 2. Quantiles for each variable:
+## 
+##               2.5%       25%        50%       75%    97.5%
+## alpha      1.56697  1.952531  2.1293937  2.320440  2.65294
+## beta      -0.01873 -0.007944 -0.0008907  0.004625  0.01594
+## beta2      0.02624  0.037067  0.0428475  0.049114  0.06060
+## fatal[27]  8.00000 13.000000 15.0000000 18.000000 24.02500
+## fatal[28]  4.97500  9.000000 11.0000000 14.000000 20.00000
+## fatal[29]  5.00000  9.000000 11.0000000 14.250000 21.00000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \CommentTok{#predictions}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{fernando}\label{fernando}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(rjags)}
+ \KeywordTok{cat}\NormalTok{( }\StringTok{"model}
+\StringTok{ \{}
+\StringTok{ for( i in 1:I )}
+\StringTok{ \{}
+\StringTok{ fatal[i] ~ dpois( mu[i] )}
+\StringTok{ log(mu[i]) <- alpha + beta2 * miles[i]*rate[i]}
+\StringTok{ \}}
+\StringTok{ alpha ~ dnorm(0,0.0001)}
+\StringTok{ }
+\StringTok{ beta2 ~ dnorm(0.0001,0.00001)}
+\StringTok{ \}"}\NormalTok{,}
+ 
+ \DataTypeTok{file=}\StringTok{"a3.jag"}\NormalTok{ )}
+
+\NormalTok{ a3.ini=}\StringTok{ }\KeywordTok{list}\NormalTok{(}
+    \KeywordTok{list}\NormalTok{(}\DataTypeTok{alpha =} \FloatTok{0.01}\NormalTok{, }\DataTypeTok{beta2=}\FloatTok{0.1}\NormalTok{),}
+    \KeywordTok{list}\NormalTok{(}\DataTypeTok{alpha =} \FloatTok{0.2}\NormalTok{, }\DataTypeTok{beta2=}\FloatTok{0.2}\NormalTok{),}
+    \KeywordTok{list}\NormalTok{(}\DataTypeTok{alpha =} \FloatTok{0.7}\NormalTok{,  }\DataTypeTok{beta2=}\FloatTok{0.3}\NormalTok{))}
+\NormalTok{ a3.dat <-}\StringTok{ }\KeywordTok{list}\NormalTok{( }\DataTypeTok{rate=} \KeywordTok{c}\NormalTok{(airline}\OperatorTok{$}\NormalTok{rate,}\FloatTok{0.7080}\NormalTok{,}\FloatTok{0.3}\NormalTok{,}\FloatTok{0.4}\NormalTok{),}\DataTypeTok{fatal=}\KeywordTok{c}\NormalTok{(airline}\OperatorTok{$}\NormalTok{fatal,}\OtherTok{NA}\NormalTok{,}\OtherTok{NA}\NormalTok{,}\OtherTok{NA}\NormalTok{), }\DataTypeTok{miles=}\KeywordTok{c}\NormalTok{(airline}\OperatorTok{$}\NormalTok{miles,}\FloatTok{19.775}\NormalTok{,}\FloatTok{23.300}\NormalTok{,}\FloatTok{20.3}\NormalTok{), }\DataTypeTok{I=}\DecValTok{29}\NormalTok{ )}
+\NormalTok{ a3.par <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"alpha"}\NormalTok{,}\StringTok{"beta2"}\NormalTok{,}\StringTok{"fatal[27]"}\NormalTok{,}\StringTok{"fatal[28]"}\NormalTok{,}\StringTok{"fatal[29]"}\NormalTok{)}
+
+ \CommentTok{# Model compilation and burn-in}
+\NormalTok{ a3.mod <-}\StringTok{ }\KeywordTok{jags.model}\NormalTok{(}\DataTypeTok{file =} \StringTok{"a3.jag"}\NormalTok{,}\DataTypeTok{data =}\NormalTok{ a3.dat,}\DataTypeTok{inits =}\NormalTok{ a3.ini,}\DataTypeTok{n.chains =} \DecValTok{3}\NormalTok{,}\DataTypeTok{n.adapt =} \DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 26
+##    Unobserved stochastic nodes: 5
+##    Total graph size: 180
+## 
+## Initializing model
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \KeywordTok{update}\NormalTok{(a3.mod,}\DecValTok{1000}\NormalTok{)}
+ \CommentTok{# Sampling from the posterior}
+\NormalTok{ a3.res <-}\StringTok{ }\KeywordTok{coda.samples}\NormalTok{( a3.mod,}\DataTypeTok{var =}\NormalTok{ a3.par,}\DataTypeTok{n.iter =} \DecValTok{10000}\NormalTok{,}\DataTypeTok{thin =} \DecValTok{50}\NormalTok{ )}
+ \KeywordTok{summary}\NormalTok{( a3.res )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Iterations = 2050:12000
+## Thinning interval = 50 
+## Number of chains = 3 
+## Sample size per chain = 200 
+## 
+## 1. Empirical mean and standard deviation for each variable,
+##    plus standard error of the mean:
+## 
+##               Mean       SD  Naive SE Time-series SE
+## alpha      2.17695 0.216400 0.0088345      0.0119159
+## beta2      0.04093 0.008498 0.0003469      0.0004517
+## fatal[27] 15.47333 4.492913 0.1834224      0.2176954
+## fatal[28] 11.89500 4.087602 0.1668756      0.1664610
+## fatal[29] 12.38167 3.838040 0.1566873      0.1738027
+## 
+## 2. Quantiles for each variable:
+## 
+##              2.5%     25%      50%      75%    97.5%
+## alpha     1.75961  2.0291  2.17995  2.33233  2.59854
+## beta2     0.02404  0.0349  0.04121  0.04677  0.05709
+## fatal[27] 8.00000 12.0000 15.00000 18.00000 25.00000
+## fatal[28] 5.00000  9.0000 12.00000 15.00000 21.00000
+## fatal[29] 5.00000 10.0000 12.00000 15.00000 19.02500
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \CommentTok{#predictions}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{result3 =}\StringTok{ }\KeywordTok{ggs}\NormalTok{(a3.res)}
+\KeywordTok{ggs_density}\NormalTok{(result3)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggs_traceplot}\NormalTok{(result3)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-13-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggs_running}\NormalTok{(result3)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-13-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggs_autocorrelation}\NormalTok{(result3)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-13-4.pdf}
+
+\section{Model 4 test}\label{model-4-test}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(rjags)}
+ \KeywordTok{cat}\NormalTok{( }\StringTok{"model}
+\StringTok{ \{}
+\StringTok{ for( i in 1:I )}
+\StringTok{ \{}
+\StringTok{ fatal[i] ~ dnorm( mu[i],1/mu[i] )}
+\StringTok{ mu[i] <- alpha + beta2 * miles[i]}
+\StringTok{ \}}
+\StringTok{ alpha ~ dnorm(0,0.0001)}
+\StringTok{ beta2 ~ dnorm(0,0.0001)}
+\StringTok{ \}"}\NormalTok{,}
+ \DataTypeTok{file=}\StringTok{"a4.jag"}\NormalTok{ )}
+
+\NormalTok{ a4.ini=}\StringTok{ }\KeywordTok{list}\NormalTok{(}
+    \KeywordTok{list}\NormalTok{(}\DataTypeTok{alpha =} \FloatTok{0.01}\NormalTok{, }\DataTypeTok{beta2=}\DecValTok{3}\NormalTok{),}
+    \KeywordTok{list}\NormalTok{(}\DataTypeTok{alpha =} \FloatTok{0.2}\NormalTok{, }\DataTypeTok{beta2=}\DecValTok{1}\NormalTok{),}
+    \KeywordTok{list}\NormalTok{(}\DataTypeTok{alpha =} \FloatTok{0.7}\NormalTok{, }\DataTypeTok{beta2=}\DecValTok{2}\NormalTok{))}
+\NormalTok{ a4.dat <-}\StringTok{ }\KeywordTok{list}\NormalTok{( }\DataTypeTok{rate =} \KeywordTok{c}\NormalTok{(airline}\OperatorTok{$}\NormalTok{rate,}\FloatTok{0.7080}\NormalTok{,}\FloatTok{0.3}\NormalTok{),}\DataTypeTok{fatal=}\KeywordTok{c}\NormalTok{(airline}\OperatorTok{$}\NormalTok{fatal,}\OtherTok{NA}\NormalTok{,}\OtherTok{NA}\NormalTok{), }\DataTypeTok{miles=}\KeywordTok{c}\NormalTok{(airline}\OperatorTok{$}\NormalTok{miles,}\FloatTok{19.775}\NormalTok{,}\FloatTok{23.300}\NormalTok{), }\DataTypeTok{I=}\DecValTok{28}\NormalTok{ )}
+\NormalTok{ a4.par <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"alpha"}\NormalTok{,}\StringTok{"beta2"}\NormalTok{,}\StringTok{"fatal[27]"}\NormalTok{,}\StringTok{"fatal[28]"}\NormalTok{)}
+
+ \CommentTok{# Model compilation and burn-in}
+\NormalTok{ a4.mod <-}\StringTok{ }\KeywordTok{jags.model}\NormalTok{(}\DataTypeTok{file =} \StringTok{"a4.jag"}\NormalTok{,}\DataTypeTok{data =}\NormalTok{ a4.dat,}\DataTypeTok{inits =}\NormalTok{ a4.ini,}\DataTypeTok{n.chains =} \DecValTok{3}\NormalTok{,}\DataTypeTok{n.adapt =} \DecValTok{1000}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in jags.model(file = "a4.jag", data = a4.dat, inits = a4.ini,
+## n.chains = 3, : Unused variable "rate" in data
+\end{verbatim}
+
+\begin{verbatim}
+## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 26
+##    Unobserved stochastic nodes: 4
+##    Total graph size: 146
+## 
+## Initializing model
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \CommentTok{# Sampling from the posterior}
+ \KeywordTok{update}\NormalTok{(a4.mod,}\DecValTok{1000}\NormalTok{)}
+\NormalTok{ a4.res <-}\StringTok{ }\KeywordTok{coda.samples}\NormalTok{( a4.mod,}\DataTypeTok{var =}\NormalTok{ a4.par,}\DataTypeTok{n.iter =} \DecValTok{3000}\NormalTok{,}\DataTypeTok{thin =} \DecValTok{10}\NormalTok{ )}
+ \KeywordTok{summary}\NormalTok{( a4.res )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Iterations = 2010:5000
+## Thinning interval = 10 
+## Number of chains = 3 
+## Sample size per chain = 300 
+## 
+## 1. Empirical mean and standard deviation for each variable,
+##    plus standard error of the mean:
+## 
+##              Mean     SD Naive SE Time-series SE
+## alpha     27.5839 2.6592 0.088640        0.12482
+## beta2     -0.3005 0.2285 0.007615        0.01101
+## fatal[27] 21.5429 5.2931 0.176436        0.17643
+## fatal[28] 20.3971 5.5330 0.184432        0.15859
+## 
+## 2. Quantiles for each variable:
+## 
+##              2.5%     25%     50%     75%   97.5%
+## alpha     22.6740 25.8471 27.4880 29.2646 32.8677
+## beta2     -0.7206 -0.4586 -0.2927 -0.1542  0.1529
+## fatal[27] 11.5487 17.8831 21.3196 24.8934 32.9347
+## fatal[28]  9.0950 16.8091 20.3126 24.0698 31.4795
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \CommentTok{#predictions}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{result4 =}\StringTok{ }\KeywordTok{ggs}\NormalTok{(a4.res)}
+\KeywordTok{ggs_density}\NormalTok{(result4)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggs_traceplot}\NormalTok{(result4)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-14-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggs_running}\NormalTok{(result4)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-14-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggs_autocorrelation}\NormalTok{(result4)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-14-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ a3.m <-}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{(a33.res)}
+\NormalTok{log.enum.}\DecValTok{2002}\NormalTok{ <-}\StringTok{ }\NormalTok{a3.m[,}\StringTok{"alpha"}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{a3.m[,}\StringTok{"beta"}\NormalTok{]}\OperatorTok{*}\FloatTok{19.775}
+\CommentTok{#print(exp(log.enum.2002))}
+\KeywordTok{summary}\NormalTok{( }\KeywordTok{exp}\NormalTok{(log.enum.}\DecValTok{2002}\NormalTok{ ))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   3.904   7.089   8.178   8.373   9.572  16.242
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v =}\KeywordTok{exp}\NormalTok{(log.enum.}\DecValTok{2002}\NormalTok{ )}
+\CommentTok{#plot(density(v))}
+\NormalTok{(e2002.qnt <-}\StringTok{ }\KeywordTok{quantile}\NormalTok{( v, }\DataTypeTok{probs=}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{,}\FloatTok{2.5}\NormalTok{,}\FloatTok{97.5}\NormalTok{)}\OperatorTok{/}\DecValTok{100}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       50%      2.5%     97.5% 
+##  8.177881  5.135431 12.759825
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{( }\KeywordTok{density}\NormalTok{(v), }\DataTypeTok{type=}\StringTok{"l"}\NormalTok{, }\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=} \StringTok{"red"}\NormalTok{ )}
+\KeywordTok{abline}\NormalTok{( }\DataTypeTok{c=}\NormalTok{e2002.qnt)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+\subsection{Prediction}\label{prediction}
+
+We want to predict the expected number of airlines fatalities in 2002
+(assuming that the amount of miles flown is \$ 20\times 10\^{}\{12\}\$
+), so we need the posterior of
+\(exp( \alpha + \beta \times (2002-1985))\times 20\)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{a2.m <-}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{(a2.res)}
+\NormalTok{enum.}\DecValTok{2002}\NormalTok{ <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(a2.m[,}\StringTok{"alpha"}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{a2.m[,}\StringTok{"beta"}\NormalTok{]}\OperatorTok{*}\DecValTok{17}\NormalTok{)}\OperatorTok{*}\DecValTok{20}
+\KeywordTok{summary}\NormalTok{( enum.}\DecValTok{2002}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   14.91   19.02   20.11   20.17   21.29   26.76
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(e2002.qnt <-}\StringTok{ }\KeywordTok{quantile}\NormalTok{( enum.}\DecValTok{2002}\NormalTok{, }\DataTypeTok{probs=}\KeywordTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{,}\FloatTok{2.5}\NormalTok{,}\FloatTok{97.5}\NormalTok{)}\OperatorTok{/}\DecValTok{100}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      50%     2.5%    97.5% 
+## 20.10837 17.02154 23.68517
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{( }\KeywordTok{density}\NormalTok{(enum.}\DecValTok{2002}\NormalTok{), }\DataTypeTok{type=}\StringTok{"l"}\NormalTok{, }\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=} \StringTok{"red"}\NormalTok{ )}
+\KeywordTok{abline}\NormalTok{( }\DataTypeTok{v=}\NormalTok{e2002.qnt)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+The node fatal{[}27{]} contains the predictive distribution for the
+number of fatal accidents in 2002. Its posterior mean is 20.04 (similar
+to that for the expected number of fatal accidents in 2002) with a
+standard deviation of 4.864 and 95\% interval {[}11,30{]} We can plot
+its distribution.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{( }\KeywordTok{table}\NormalTok{(a2.m[,}\StringTok{"fatal[27]"}\NormalTok{]), }\DataTypeTok{type=}\StringTok{"h"}\NormalTok{, }\DataTypeTok{lwd=}\DecValTok{5}\NormalTok{, }\DataTypeTok{lend=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\KeywordTok{gray}\NormalTok{(}\FloatTok{0.5}\NormalTok{), }\DataTypeTok{bty=}\StringTok{"n"}\NormalTok{, }\DataTypeTok{ylab=}\StringTok{""}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{reportPreview_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+We can notice from the table of true values bolow that our prediction of
+20 for the number of fatal accidents in 2002 was wrong as the right one
+was 14 but still fits well within the prediction interval of (11,30).
+Finally we notice also that, since 1976, the rate of fatal accident per
+air mile flown has decreased becoming ten times lower.
+
+\begin{verbatim}
+  Year      Fatal accidents   Passenger miles    Accident rate
+               
+
+  2002      14                19.775             0.7080
+  2003      7                 23.300             0.3004
+  2004      9                 20.300             0.4433
+\end{verbatim}
+
+\subsection{Model comparison throughout DIC
+index}\label{model-comparison-throughout-dic-index}
+
+A good way to select the model that fits best our data, is using the DIC
+measure. The DIC (deviance information criterion) is a Bayesian
+criterion for model comparison, defined as:
+\[ DIC = D(\bar{\theta}) + 2_{p_D}\] Where:
+\(D(\theta) = -2logL(\theta)\), \(p_D = \bar D - D(\bar \theta)\), is
+the effective number of paramenters of the model, the larger \(p_D\) the
+easier the model fits on the data. \(\bar D = E[D(\theta)]\), its the
+mean deviance. is a measure of how well the model fits the data, the
+larger the worse the fit. \(D(\bar \theta) = D[E(\theta)]\)
+
+the basic idea is that the models with smaller DIC should be preferred.
+Models are penalized both by the value of \(\bar D\), which favors a
+good fit, but also by the effective number of parameters \(p_D\). Since
+\(\bar D\) will decrease as the number of parameters in a model
+increases, the \(p_{D}\) term compensates for this effect by favoring
+models with a smaller number of parameters.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Model Comparison}
+\NormalTok{DICmod1 =}\StringTok{ }\KeywordTok{dic.samples}\NormalTok{(a1.mod, }\DataTypeTok{n.iter=}\DecValTok{10000}\NormalTok{, }\DataTypeTok{thin=}\DecValTok{10}\NormalTok{, }\DataTypeTok{type=}\StringTok{"pD"}\NormalTok{)}
+\NormalTok{DICmod2 =}\StringTok{ }\KeywordTok{dic.samples}\NormalTok{(a2.mod, }\DataTypeTok{n.iter=}\DecValTok{10000}\NormalTok{, }\DataTypeTok{thin =}\DecValTok{10}\NormalTok{, }\DataTypeTok{type=}\StringTok{"pD"}\NormalTok{)}
+\KeywordTok{print}\NormalTok{(}\StringTok{'model 1 DIC'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "model 1 DIC"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{DICmod1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Mean deviance:  156.2 
+## penalty 1.021 
+## Penalized deviance: 157.2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(}\StringTok{'model 2 DIC'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "model 2 DIC"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{DICmod2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Mean deviance:  155 
+## penalty 1.99 
+## Penalized deviance: 157
+\end{verbatim}
+
+
+\end{document}

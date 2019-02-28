@@ -1,0 +1,11 @@
+model{
+    ## Likelihood
+    for(i in 1:N){
+    fatal[i] ~ dpois(lambda[i])
+    log(lambda[i]) <- mu[i]
+    mu[i] <- beta0+beta1*miles[i]
+    }     
+    ## Prior
+    beta0 ~ dnorm(0.01,2)  #  Normal prior
+    beta1 ~ dnorm(0.01,2)
+    }

@@ -1,0 +1,6 @@
+"0"," # Model compilation and burn-in
+ a3.mod <- jags.model(file = ""a3.jag"",data = a3.dat,inits = a3.ini,n.chains = 3,n.adapt = 1000 )
+"
+"2","Error in jags.model(file = ""a3.jag"", data = a3.dat, inits = a3.ini, n.chains = 3,  : 
+  could not find function ""jags.model""
+"

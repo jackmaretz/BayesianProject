@@ -1,0 +1,11 @@
+model {
+  trend[1] <- beta0 + beta1 * miles[1]
+    for( i in 2 : N ) {
+    fatal[i] ~ dnorm( mu[i] , tau)
+    mu[i] <- trend[i] + ar1 * ( fatal[i-1] - trend[i-1] )
+    trend[i] <- beta0 + beta1 * miles[i]
+    }
+    ar1 ~ dunif(-1.1,1.1) 
+    beta0 ~ dnorm( 0 , 1.0E-12 )
+    beta1 ~ dnorm( 0 , 1.0E-12 )
+    tau ~ dgamma( 0.001 , 0.001 )}
