@@ -1,0 +1,4 @@
+"0","a3.m <- as.matrix(a3.res)"
+"0","y.pred = c(mean(a3.m[,""fatal[27]""]),mean(a3.m[,""fatal[28]""]),mean(a3.m[,""fatal[29]""]))"
+"0","y.true = c(14,7,9)"
+"0","plot(y.pred,y.true)"

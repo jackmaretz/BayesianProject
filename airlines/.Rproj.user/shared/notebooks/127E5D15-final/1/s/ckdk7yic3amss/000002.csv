@@ -1,0 +1,51 @@
+"0","#install.packages(""rjags"",""coda"",""Epi"",""lme4"",""pixmap"",""sp"")"
+"0","library(ggplot2)"
+"0","library(ggfortify)"
+"2","package ‘ggfortify’ was built under R version 3.5.2"
+"0","library(ggpubr)"
+"2","package ‘ggpubr’ was built under R version 3.5.2"
+"2","Carico il pacchetto richiesto: magrittr
+"
+"0","library(""ggmcmc"")"
+"2","Carico il pacchetto richiesto: dplyr
+"
+"2","
+Attaching package: ‘dplyr’
+
+"
+"2","The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+"
+"2","The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+"
+"2","Carico il pacchetto richiesto: tidyr
+"
+"2","
+Attaching package: ‘tidyr’
+
+"
+"2","The following object is masked from ‘package:magrittr’:
+
+    extract
+
+"
+"0","library(rjags)"
+"2","Carico il pacchetto richiesto: coda
+"
+"2","Linked to JAGS 4.3.0
+"
+"2","Loaded modules: basemod,bugs
+"
+"0","library(ggplot2)"
+"0","library(knitr)"
+"2","package ‘knitr’ was built under R version 3.5.2"
+"0","library(pander)"
+"2","package ‘pander’ was built under R version 3.5.2"
+"0","library(lattice)"
+"0","airline <- read.table(""http://www.uta.fi/sis/mtt/mttts12/jags/airline.txt"",h=T,sep="""")"
+"0","set.seed(123)"

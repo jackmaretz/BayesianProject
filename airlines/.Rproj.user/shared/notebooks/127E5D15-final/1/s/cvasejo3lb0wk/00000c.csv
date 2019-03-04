@@ -1,0 +1,4 @@
+"0","df=data.frame(y.true,y.pred)"
+"0","library(ggplot2)"
+"0","ggplot( df,aes(x = y.true, y = y.pred)) +  # Set up canvas with outcome variable on y-axis"
+"0","  geom_point()  # Plot the actual points"

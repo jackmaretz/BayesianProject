@@ -1,0 +1,24 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1551287590974.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2490348526",
+    "id" : "4526988A",
+    "lastKnownWriteTime" : 1551353620,
+    "last_content_update" : 1551353620461,
+    "path" : "~/GitHub/BayesianProject/airlines/autoregressive.R",
+    "project_path" : "autoregressive.R",
+    "properties" : {
+        "cursorPosition" : "105,67",
+        "scrollLine" : "90",
+        "source_window_id" : "",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

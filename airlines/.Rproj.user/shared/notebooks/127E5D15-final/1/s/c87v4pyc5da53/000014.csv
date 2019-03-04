@@ -1,0 +1,3 @@
+"0","ar.m <- as.matrix(ar1_pred.res)"
+"0","par(mfrow=c(1,3))"
+"0","plot(density(ar.m[,""fatal[27]""]),main=""Fatal in 2002"", col=""red"", lwd=2)"

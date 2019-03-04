@@ -1,0 +1,476 @@
+---
+title: "Airlines Fatalities"
+author: "Giacomo Maretto"
+date: "28 febbraio 2019"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+
+```{r, echo=FALSE,include=FALSE}
+#install.packages("rjags","coda","Epi","lme4","pixmap","sp")
+library(ggplot2)
+library(ggfortify)
+library(ggpubr)
+library("ggmcmc")
+library(rjags)
+library(ggplot2)
+library(knitr)
+library(pander)
+library(lattice)
+airline <- read.table("http://www.uta.fi/sis/mtt/mttts12/jags/airline.txt",h=T,sep="")
+set.seed(123)
+```
+# Airlines Fatalities
+
+## Introduction 
+
+
+In this project we are analyzing data collected from 1976 to 2001 about airline fatal accidents by the International Civil Aviation Organization in Montreal , Canada (www.icao.int).
+
+Our goal is to get a good prediction about future fatalitis through a bayesian approach.
+
+Our data is structured with four columns, year, fatal, miles, rate.
+
+"Passenger miles" are in units of $10^{11}$ and the "accident rate" is the number of fatal accidents per $10^{11}$ passenger miles.
+
+
+```{r, echo=FALSE}
+airline$year1975= NULL
+pander(head(airline)) # the column fatal which contains the annual number of fatalities.
+
+```
+
+### Following three descriptive time series plot respectively about the number of fatal accidents, the miles flown and the accident rate per each year.
+
+
+```{r, echo=FALSE}
+
+theme_set(theme_classic())
+theme_set(theme_bw())
+
+p = ggplot(airline, aes(x=year)) + 
+  geom_line(aes(y=fatal,x =year)) + 
+  geom_point(aes(y=fatal,x=year))+
+  labs(title="Time Series Chart", 
+       subtitle="Returns fatal from 'Airlines' Dataset", 
+       caption="Source: American Airlines", 
+       y="Fatal")
+
+p  + theme(axis.text.x = element_text(angle = 60, vjust = 0.5)) + scale_x_continuous("Year", labels = as.character(airline$year), breaks = airline$year)
+
+
+```
+
+```{r, echo=FALSE}
+
+theme_set(theme_classic())
+theme_set(theme_bw())
+
+p = ggplot(airline, aes(x=year)) + 
+  geom_line(aes(y=miles,x =year)) + 
+  geom_point(aes(y=miles,x=year))+
+  labs(title="Time Series Chart", 
+       subtitle="Returns miles travelled from 'Airlines' Dataset", 
+       caption="Source: American Airlines", 
+       y="Miles")
+
+p  + theme(axis.text.x = element_text(angle = 60, vjust = 0.5)) + scale_x_continuous("Year", labels = as.character(airline$year), breaks = airline$year)
+
+
+```
+
+```{r, echo=FALSE}
+
+p = ggplot(airline, aes(x=miles)) + 
+  geom_line(aes(y=fatal,x =miles)) + 
+  geom_point(aes(y=fatal,x=miles))+
+  labs(title="Time Series Chart", 
+       subtitle="Returns fatal from 'Airlines' Dataset", 
+       caption="Source: American Airlines", 
+       y="Fatal")
+
+p  + theme(axis.text.x = element_text(angle = 60, vjust = 0.5)) + scale_x_continuous("Miles", labels = as.character(airline$miles), breaks = airline$miles)
+
+
+```
+
+```{r, echo=FALSE}
+p = ggplot(airline, aes(x=year)) + 
+  geom_line(aes(y=miles,x =year)) + 
+  geom_point(aes(y=miles,x=year))+
+  labs(title="Time Series Chart", 
+       subtitle=" Miles per Year", 
+       caption="Source: American Airlines", 
+       y="Miles")
+
+p  + theme(axis.text.x = element_text(angle = 60, vjust = 0.5)) + scale_x_continuous("Year", labels = as.character(airline$year), breaks = airline$year)
+```
+
+```{r, echo=FALSE}
+p = ggplot(airline, aes(x=year)) + 
+  geom_line(aes(y=rate,x =year)) + 
+  geom_point(aes(y=rate,x=year))+
+  labs(title="Time Series Chart", 
+       subtitle="Rate per Year", 
+       caption="Source: American Airlines", 
+       y="Rate")
+
+p  + theme(axis.text.x = element_text(angle = 60, vjust = 0.5)) + scale_x_continuous("Year", labels = as.character(airline$year), breaks = airline$year)
+```
+
+# JAGS MODELS:
+
+## First model
+```{r model 1}
+cat( "model {
+  for( i in 1:I ) {
+    fatal[i] ~ dpois(mu)
+    }
+    mu ~ dgamma(0.01,0.01)
+  }", file="a1.jag" )
+
+a1.par <- c("mu","fatal[27]","fatal[28]","fatal[29]")
+
+a1.ini <- list(list( mu=22 ),
+              list( mu=23 ),
+              list( mu=24 ) )
+
+a1.dat <- list( fatal = c(airline$fatal,NA,NA,NA), I=29 )
+
+# Model compilation and burn-in
+a1.mod <- jags.model( file = "a1.jag",
+                    data = a1.dat,
+                    inits = a1.ini,
+                    n.chains = 3,
+                    n.adapt = 1000 )
+update(a1.mod,1000)
+
+# Sampling from the posterior
+a1.res <- coda.samples( a1.mod,
+                      var = a1.par,
+                      n.iter = 10000,
+                      thin = 10 )
+summary( a1.res )
+
+theta <- rgamma(6000, 634, 26 )
+y.2002 <- rpois(6000,theta)
+plot( main = 'Posterior predictive distribution of y in 2002',table(y.2002), type="h", lwd=5, lend=2, col=gray(0.2), bty="n", ylab="", xlim=c(5,60) )
+tpr <- table( as.matrix( a1.res[,"fatal[27]"] ) )
+points( as.numeric(names(tpr))+0.4, tpr, type="h", col="red", lwd=4 )
+legend("topright", c('Directly simulated','posterior values from JAGS output'),col=c(gray(0.2),'red'),lwd = 5)
+
+
+```
+
+## Diagnostics for model 1
+
+```{r}
+
+result = ggs(a1.res)
+ggs_density(result)
+ggs_traceplot(result)
+ggs_running(result)
+ggs_autocorrelation(result)
+```
+
+
+# Third model
+
+```{r model 3}
+library(rjags)
+ cat( "model
+ {
+ for( i in 1:I )
+ {
+ fatal[i] ~ dpois( mu[i] )
+ log(mu[i]) <- alpha + beta*miles[i]+ beta2 * miles[i]*rate[i]
+ }
+ alpha ~ dnorm(0,0.0001)
+ beta ~ dnorm(0.0001,0.00001)
+ beta2 ~ dnorm(0.0001,0.00001)
+ }",
+ 
+ file="a3.jag" )
+
+ a3.ini= list(
+    list(alpha = 0.01, beta = 0.6, beta2=0.1),
+    list(alpha = 0.2, beta = 0.2, beta2=0.2),
+    list(alpha = 0.7, beta = 0.7, beta2=0.3))
+ a3.dat <- list( rate= c(airline$rate,0.7080,0.3,0.4),fatal=c(airline$fatal,NA,NA,NA), miles=c(airline$miles,19.775,23.300,20.3), I=29 )
+ a3.par <- c("alpha","beta","beta2","fatal[27]","fatal[28]","fatal[29]")
+
+ # Model compilation and burn-in
+ a3.mod <- jags.model(file = "a3.jag",data = a3.dat,inits = a3.ini,n.chains = 3,n.adapt = 1000)
+ update(a3.mod,1000)
+ # Sampling from the posterior
+ a3.res <- coda.samples( a3.mod,var = a3.par,n.iter = 10000,thin = 50 )
+ summary( a3.res )
+
+``` 
+## Model 3 diagnostics
+```{r}
+result3 = ggs(a3.res)
+ggs_density(result3)
+ggs_traceplot(result3)
+ggs_running(result3)
+ggs_autocorrelation(result3)
+```
+## Predicting values in model 3
+```{r}
+par(mfrow=c(1,3))
+a3.m <- as.matrix(a3.res)
+plot(density(a3.m[,"fatal[27]"]),main="Fatal in 2002", col="red", lwd=2)
+grid (NULL,NULL, lty = 6, col = "cornsilk2") 
+abline( v=14,col="black")
+a3.m <- as.matrix(a3.res)
+plot(density(a3.m[,"fatal[28]"]),main="Fatal in 2003", col="red", lwd=2)
+grid (NULL,NULL, lty = 6, col = "cornsilk2") 
+abline( v=7,col="black")
+a3.m <- as.matrix(a3.res)
+plot(density(a3.m[,"fatal[29]"]),main="Fatal in 2004", col="red", lwd=2)
+grid (NULL,NULL, lty = 6, col = "cornsilk2") 
+abline( v=9,col="black")
+```
+## Forth model
+
+```{r model 4}
+library(rjags)
+ cat( "model
+ {
+ for( i in 1:I )
+ {
+ fatal[i] ~ dpois( mu[i] )
+ log(mu[i]) <- alpha + beta2 * miles[i]*rate[i]
+ }
+ alpha ~ dnorm(0,0.0001)
+ 
+ beta2 ~ dnorm(0.0001,0.00001)
+ }",
+ 
+ file="a4.jag" )
+
+ a4.ini= list(
+    list(alpha = 0.01, beta2=0.1),
+    list(alpha = 0.2, beta2=0.2),
+    list(alpha = 0.7,  beta2=0.3))
+ a4.dat <- list( rate= c(airline$rate,0.7080,0.3,0.4),fatal=c(airline$fatal,NA,NA,NA), miles=c(airline$miles,19.775,23.300,20.3), I=29 )
+ a4.par <- c("alpha","beta2","fatal[27]","fatal[28]","fatal[29]")
+
+ # Model compilation and burn-in
+ a4.mod <- jags.model(file = "a4.jag",data = a4.dat,inits = a4.ini,n.chains = 3,n.adapt = 1000)
+ update(a4.mod,1000)
+ # Sampling from the posterior
+ a4.res <- coda.samples( a4.mod,var = a4.par,n.iter = 10000,thin = 50 )
+ summary( a4.res )
+``` 
+## Model 4 diagnostics
+```{r}
+result4 = ggs(a4.res)
+ggs_density(result4)
+ggs_traceplot(result4)
+ggs_running(result4)
+ggs_autocorrelation(result4)
+```
+## Predicting values in model 4
+```{r}
+par(mfrow=c(1,3))
+a4.m <- as.matrix(a4.res)
+plot(density(a4.m[,"fatal[27]"]),main="Fatal in 2002", col="red", lwd=2)
+grid (NULL,NULL, lty = 6, col = "cornsilk2") 
+abline( v=14,col="black")
+a4.m <- as.matrix(a4.res)
+plot(density(a4.m[,"fatal[28]"]),main="Fatal in 2003", col="red", lwd=2)
+grid (NULL,NULL, lty = 6, col = "cornsilk2") 
+abline( v=7,col="black")
+a4.m <- as.matrix(a4.res)
+plot(density(a4.m[,"fatal[29]"]),main="Fatal in 2004", col="red", lwd=2)
+grid (NULL,NULL, lty = 6, col = "cornsilk2") 
+abline( v=9,col="black")
+```
+
+
+
+
+
+
+# Model 5 test with normal approximation
+
+```{r model 5}
+library(rjags)
+ cat( "model
+ {
+ for( i in 1:I )
+ {
+ fatal[i] ~ dnorm( mu[i],1/mu[i] )
+ mu[i] <- alpha + beta2 * miles[i]
+ }
+ alpha ~ dnorm(0,0.0001)
+ beta2 ~ dnorm(0,0.0001)
+ }",
+ file="a5.jag" )
+
+ a5.ini= list(
+    list(alpha = 0.01, beta2=3),
+    list(alpha = 0.2, beta2=1),
+    list(alpha = 0.7, beta2=2))
+ a5.dat <- list( rate = c(airline$rate,0.7080,0.3,0.4),fatal=c(airline$fatal,NA,NA,NA), miles=c(airline$miles,19.775,23.300,20.3), I=29 )
+ a5.par <- c("alpha","beta2","fatal[27]","fatal[28]","fatal[29]")
+
+ # Model compilation and burn-in
+ a5.mod <- jags.model(file = "a5.jag",data = a5.dat,inits = a5.ini,n.chains = 3,n.adapt = 1000 )
+ # Sampling from the posterior
+ update(a5.mod,1000)
+ a5.res <- coda.samples( a4.mod,var = a4.par,n.iter = 3000,thin = 10 )
+ summary( a5.res )
+
+``` 
+
+## Model5 diagnostics
+```{r}
+result5 = ggs(a5.res)
+ggs_density(result5)
+ggs_traceplot(result5)
+ggs_running(result5)
+ggs_autocorrelation(result5)
+```
+
+## Predicting values in model 5
+```{r}
+par(mfrow=c(1,3))
+a5.m <- as.matrix(a5.res)
+plot(density(a5.m[,"fatal[27]"]),main="Fatal in 2002", col="red", lwd=2)
+grid (NULL,NULL, lty = 6, col = "cornsilk2") 
+abline( v=14,col="black")
+a5.m <- as.matrix(a5.res)
+plot(density(a5.m[,"fatal[28]"]),main="Fatal in 2003", col="red", lwd=2)
+grid (NULL,NULL, lty = 6, col = "cornsilk2") 
+abline( v=7,col="black")
+a5.m <- as.matrix(a5.res)
+plot(density(a5.m[,"fatal[29]"]),main="Fatal in 2004", col="red", lwd=2)
+grid (NULL,NULL, lty = 6, col = "cornsilk2") 
+abline( v=9,col="black")
+
+```
+
+# Table of true values
+
+
+
+
+      Year      Fatal accidents   Passenger miles    Accident rate
+                   
+
+      2002      14                19.775             0.7080
+      2003      7                 23.300             0.3004
+      2004      9                 20.300             0.4433
+
+## Model comparison throughout DIC index
+A good way to select the model that fits best our data, is using the DIC measure.
+The DIC (deviance information criterion) is a Bayesian criterion for model comparison, defined as:
+$$ DIC = D(\bar{\theta}) + 2_{p_D}$$
+ Where: 
+      $D(\theta) = -2logL(\theta)$,
+      $p_D = \bar D - D(\bar \theta)$, is the effective number of paramenters of the model, the larger $p_D$ the easier the model fits on the data.
+      $\bar D = E[D(\theta)]$, its the mean deviance. is a measure of how well the model fits the data, the larger the worse the fit.
+      $D(\bar \theta) = D[E(\theta)]$
+      
+the basic idea is that the models with smaller DIC should be preferred.
+Models are penalized both by the value of $\bar D$, which favors a good fit, but also by the effective number of parameters $p_D$.
+Since $\bar D$ will decrease as the number of parameters in a model increases, the $p_{D}$ term compensates for this effect by favoring models with a smaller number of parameters.
+```{r}
+#Model Comparison
+DICmodel1 = dic.samples(a1.mod, n.iter=10000, thin=10, type="pD")
+DICmodel3 = dic.samples(a3.mod, n.iter=10000, thin =10, type="pD")
+DICmodel4 = dic.samples(a4.mod, n.iter=10000, thin=10, type="pD")
+DICmodel5 = dic.samples(a5.mod, n.iter=10000, thin =10, type="pD")
+
+
+DICmodel1
+DICmodel3
+DICmodel4
+DICmodel5
+```
+# Model 3 is the best fitting one
+
+```{r}
+a3.m <- as.matrix(a3.res)
+
+y.pred = c(mean(a3.m[,"fatal[27]"]),mean(a3.m[,"fatal[28]"]),mean(a3.m[,"fatal[29]"]))
+y.true = c(14,7,9)
+df
+df=data.frame(y.true,y.pred)
+library(ggplot2)
+ggplot( df,aes(x = y.true, y = y.pred)) +  # Set up canvas with outcome variable on y-axis
+  geom_point()  # Plot the actual points
+```
+
+```{r}
+#time series model
+miles.new = c(19.775,23.300,20.300)
+
+cat("model {
+  trend[1] <- beta0 + beta1 * miles[1]
+    for( i in 2 : N ) {
+      fatal[i] ~ dnorm( mu[i] , tau)
+      mu[i] <- trend[i] + ar1 * ( fatal[i-1] - trend[i-1] )
+      trend[i] <- beta0 + beta1 * miles[i]
+    }
+    ar1 ~ dunif(-1.1,1.1) 
+    beta0 ~ dnorm( 0 , 1.0E-12 )
+    beta1 ~ dnorm( 0 , 1.0E-12 )
+    tau ~ dgamma( 0.001 , 0.001 )}" ,file= "ar1_pred.jag")
+
+ar1_pred.par <- c("ar1","beta0", "beta1", "tau","fatal[27]","fatal[28]","fatal[29]")
+ar1_pred.ini <- list( list( ar1=0.01, beta0=0.01, beta1 = 0.01,tau=0.01 ))
+ar1_pred.dat <- list( fatal=c(airline$fatal,NA,NA,NA),
+                 miles=c(airline$miles,miles.new),
+                 N= 26+3)
+
+#mod.forecast = jags.model(ar1_pred.dat,parameters.to.save = ar1_pred.par,mode)
+
+ar1_pred.mod <- jags.model( file = "ar1_pred.jag",
+                       data = ar1_pred.dat,
+                       inits = ar1_pred.ini,
+                       n.chains =1,
+                       n.adapt = 1000 )
+ar1_pred.res <- coda.samples( model = ar1_pred.mod,
+                         var = ar1_pred.par,
+                         n.iter = 10000,
+                         thin = 10 )
+summary(ar1_pred.res)
+```
+## Model autoregressive diagnostics
+```{r}
+resultar = ggs(ar1_pred.res)
+ggs_density(resultar)
+ggs_traceplot(resultar)
+ggs_running(resultar)
+ggs_autocorrelation(resultar)
+```
+
+```{r}
+ar.m <- as.matrix(ar1_pred.res)
+
+par(mfrow=c(1,3))
+plot(density(ar.m[,"fatal[27]"]),main="Fatal in 2002", col="red", lwd=2)
+grid (NULL,NULL, lty = 6, col = "cornsilk2") 
+abline( v=14,col="black")
+plot(density(ar.m[,"fatal[28]"]),main="Fatal in 2003", col="red", lwd=2)
+grid (NULL,NULL, lty = 6, col = "cornsilk2") 
+abline( v=7,col="black")
+plot(density(ar.m[,"fatal[29]"]),main="Fatal in 2004", col="red", lwd=2)
+grid (NULL,NULL, lty = 6, col = "cornsilk2") 
+abline( v=9,col="black")
+
+
+y.pred = c(mean(ar.m[,"fatal[27]"]),mean(ar.m[,"fatal[28]"]),mean(ar.m[,"fatal[29]"]))
+y.true = c(14,7,9)
+df
+df=data.frame(y.true,y.pred)
+library(ggplot2)
+ggplot( df,aes(x = y.true, y = y.pred)) +  # Set up canvas with outcome variable on y-axis
+  geom_point()  # Plot the actual points
+```
+

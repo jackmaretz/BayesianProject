@@ -1,0 +1,6 @@
+"0","y.pred = c(mean(ar.m[,""fatal[27]""]),mean(ar.m[,""fatal[28]""]),mean(ar.m[,""fatal[29]""]))"
+"0","y.true = c(14,7,9)"
+"0","df=data.frame(y.true,y.pred)"
+"0","library(ggplot2)"
+"0","ggplot( df,aes(x = y.true, y = y.pred)) +  # Set up canvas with outcome variable on y-axis"
+"0","  geom_point()  # Plot the actual points"

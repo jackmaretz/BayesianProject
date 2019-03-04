@@ -1,0 +1,1 @@
+"0","legend(""topright"", c('Directly simulated','posterior values from JAGS output'),col=c(gray(0.2),'red'),lwd = 5)"

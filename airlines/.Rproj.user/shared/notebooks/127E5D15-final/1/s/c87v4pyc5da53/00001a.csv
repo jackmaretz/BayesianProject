@@ -1,0 +1,1 @@
+"0","plot(density(ar.m[,""fatal[28]""]),main=""Fatal in 2003"", col=""red"", lwd=2)"

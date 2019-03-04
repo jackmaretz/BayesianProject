@@ -1,0 +1,8 @@
+"0","p = ggplot(airline, aes(x=miles)) + "
+"0","  geom_line(aes(y=fatal,x =miles)) + "
+"0","  geom_point(aes(y=fatal,x=miles))+"
+"0","  labs(title=""Time Series Chart"", "
+"0","       subtitle=""Returns fatal from 'Airlines' Dataset"", "
+"0","       caption=""Source: American Airlines"", "
+"0","       y=""Fatal"")"
+"0","p  + theme(axis.text.x = element_text(angle = 60, vjust = 0.5)) + scale_x_continuous(""Miles"", labels = as.character(airline$miles), breaks = airline$miles)"

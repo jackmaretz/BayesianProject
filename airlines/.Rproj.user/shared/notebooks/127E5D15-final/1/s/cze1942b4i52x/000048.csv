@@ -1,0 +1,2 @@
+"0","a4.m <- as.matrix(a4.res)"
+"0","plot(density(a4.m[,""fatal[28]""]),main=""Fatal in 2003"", col=""red"", lwd=2)"

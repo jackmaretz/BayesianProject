@@ -1,0 +1,6 @@
+model {
+  for( i in 1:I ) {
+    fatal[i] ~ dpois(mu)
+    }
+    mu ~ dgamma(0.01,0.01)
+  }
